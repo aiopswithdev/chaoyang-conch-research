@@ -1,0 +1,52 @@
+============================================================
+  Experiment 5 — CONCH + Full Infrastructure
+============================================================
+Best epoch     : 55/60
+Augmentation   : H&E-aware (rotation, flip, zoom, shift, shear, color jitter)
+Optimizer      : AdamW weight_decay=0.01
+LR schedule    : 5-ep warmup + cosine
+Head           : GaussianNoise + BN + GELU + Dropout(0.5)
+
+
+── TEST Results (Macro-Averaged) ──
+  Accuracy  : 86.02%
+  Precision : 81.43%
+  Recall    : 80.39%
+  F1 Score  : 80.87%
+
+── TEST Per-Class Breakdown ──
+                precision    recall  f1-score   support
+
+        Normal     0.8541    0.8553    0.8547       705
+      Serrated     0.6382    0.6044    0.6208       321
+Adenocarcinoma     0.9587    0.9940    0.9760       840
+       Adenoma     0.8062    0.7619    0.7834       273
+
+      accuracy                         0.8602      2139
+     macro avg     0.8143    0.8039    0.8087      2139
+  weighted avg     0.8566    0.8602    0.8582      2139
+
+── Confusion Matrix ──
+           Normal    Serrat    Adenoc    Adenom
+    Normal       603        65        14        23
+    Serrat        95       194         6        26
+    Adenoc         0         4       835         1
+    Adenom         8        41        16       208
+
+
+── Full Comparison Table ──
+  Method                                    Acc      F1
+  ────────────────────────────────────────────────────────
+  HSA-NRL (ResNet-34, noise-robust)         83.40%   76.54%
+  Ke et al. (CNN ensemble + MHSA)           86.72%   85.76%
+  Belaskri et al. (ViT-B/16 + RCC)         87.14%   82.77%
+  Exp 4 — CONCH partial fine-tune           85.46%   80.55%
+  Exp 5 — CONCH + full infra (ours)         86.02%   80.87%
+
+── Per-Class F1 ──
+  Class             Exp4     Exp5     Change
+  ──────────────────────────────────────────────
+  Normal           83.72%   85.47%   +1.75%
+  Serrated         59.31%   62.08%   +2.77%
+  Adenocarcinoma   97.26%   97.60%   +0.34%
+  Adenoma          81.90%   78.34%   -3.56%

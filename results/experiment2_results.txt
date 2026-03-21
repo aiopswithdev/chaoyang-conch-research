@@ -1,0 +1,49 @@
+============================================================
+  Experiment 2 — CONCH + MLP + Symmetric Cross-Entropy
+============================================================
+SCE alpha  : 0.1
+SCE beta   : 1.0
+Best epoch : 100/100
+
+
+── TEST Results (Macro-Averaged) ──
+  Accuracy  : 80.79%
+  Precision : 75.23%
+  Recall    : 75.06%
+  F1 Score  : 75.12%
+
+── TEST Per-Class Breakdown ──
+                precision    recall  f1-score   support
+
+        Normal     0.8075    0.7674    0.7869       705
+      Serrated     0.4985    0.5140    0.5061       321
+Adenocarcinoma     0.9392    0.9738    0.9562       840
+       Adenoma     0.7640    0.7473    0.7556       273
+
+      accuracy                         0.8079      2139
+     macro avg     0.7523    0.7506    0.7512      2139
+  weighted avg     0.8073    0.8079    0.8072      2139
+
+── Confusion Matrix ──
+           Normal    Serrat    Adenoc    Adenom
+    Normal       541       113        24        27
+    Serrat       113       165        11        32
+    Adenoc         5        13       818         4
+    Adenom        11        40        18       204
+
+
+── Comparison Against Baselines ──
+  Method                                  Acc      F1
+  ──────────────────────────────────────────────────────
+  HSA-NRL (ResNet-34, noise-robust)       83.40%   76.54%
+  Ke et al. (CNN ensemble + MHSA)         86.72%   85.76%
+  Exp 1 — CONCH + MLP (standard CE)       82.14%   77.05%
+  Exp 2 — CONCH + MLP + SCE (ours)        80.79%   75.12%
+
+── Per-Class F1 Comparison (Serrated is the key indicator) ──
+  Class           Exp 1 F1    Exp 2 F1    Change
+  ──────────────────────────────────────────────
+  Normal           79.50%      78.69%
+  Serrated         54.95%      50.61%       ← noise indicator
+  Adenocarcinoma   96.53%      95.62%
+  Adenoma          77.20%      75.56%

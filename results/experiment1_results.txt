@@ -1,0 +1,38 @@
+============================================================
+  Experiment 1 — CONCH + MLP, No Noise Handling
+============================================================
+Best epoch : 40/100
+
+
+── TEST Results (Macro-Averaged) ──
+  Accuracy  : 82.14%
+  Precision : 76.75%
+  Recall    : 77.46%
+  F1 Score  : 77.05%
+
+── TEST Per-Class Breakdown ──
+                precision    recall  f1-score   support
+
+        Normal     0.8280    0.7645    0.7950       705
+      Serrated     0.5304    0.5701    0.5495       321
+Adenocarcinoma     0.9546    0.9762    0.9653       840
+       Adenoma     0.7570    0.7875    0.7720       273
+
+      accuracy                         0.8214      2139
+     macro avg     0.7675    0.7746    0.7705      2139
+  weighted avg     0.8240    0.8214    0.8221      2139
+
+── Confusion Matrix ──
+           Normal    Serrat    Adenoc    Adenom
+    Normal       539       119        15        32
+    Serrat        99       183         8        31
+    Adenoc         4        10       820         6
+    Adenom         9        33        16       215
+
+
+── Comparison Against Published Baselines ──
+  Method                              Acc      F1
+  ─────────────────────────────────────────────────
+  HSA-NRL (ResNet-34, noise-robust)   83.40%   76.54%
+  Ke et al. (CNN ensemble + MHSA)     86.72%   85.76%
+  CONCH + MLP (Experiment 1, ours)    82.14%   77.05%

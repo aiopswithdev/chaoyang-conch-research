@@ -1,0 +1,51 @@
+============================================================
+  Experiment 4 — Partial CONCH Fine-Tuning
+  Frozen blocks : 0-5
+  LR encoder    : 1e-05
+  LR head       : 0.001
+  Best epoch    : 15/50
+
+
+── TEST Results (Macro-Averaged) ──
+  Accuracy  : 85.46%
+  Precision : 80.95%
+  Recall    : 80.27%
+  F1 Score  : 80.55%
+
+── TEST Per-Class Breakdown ──
+                precision    recall  f1-score   support
+
+        Normal     0.8390    0.8355    0.8372       705
+      Serrated     0.6294    0.5607    0.5931       321
+Adenocarcinoma     0.9521    0.9940    0.9726       840
+       Adenoma     0.8175    0.8205    0.8190       273
+
+      accuracy                         0.8546      2139
+     macro avg     0.8095    0.8027    0.8055      2139
+  weighted avg     0.8492    0.8546    0.8514      2139
+
+── Confusion Matrix ──
+           Normal    Serrat    Adenoc    Adenom
+    Normal       589        82        14        20
+    Serrat       101       180        12        28
+    Adenoc         2         1       835         2
+    Adenom        10        23        16       224
+
+
+── Full Comparison Table ──
+  Method                                  Acc      F1
+  ──────────────────────────────────────────────────────
+  HSA-NRL (ResNet-34, noise-robust)       83.40%   76.54%
+  Ke et al. (CNN ensemble + MHSA)         86.72%   85.76%
+  Exp 1 — CONCH frozen + CE              82.14%   77.05%
+  Exp 2 — CONCH frozen + SCE             80.79%   75.12%
+  Exp 3 — CONCH frozen + GCE             81.30%   75.87%
+  Exp 4 — CONCH partial fine-tune        85.46%   80.55%
+
+── Per-Class F1 ──
+  Class             Exp1     Exp4     Change
+  ────────────────────────────────────────────
+  Normal           79.50%   83.72%   +4.22%
+  Serrated         54.95%   59.31%   +4.36%
+  Adenocarcinoma   96.53%   97.26%   +0.73%
+  Adenoma          77.20%   81.90%   +4.70%

@@ -1,0 +1,49 @@
+============================================================
+  Experiment 3 — CONCH + MLP + GCE Loss (q=0.7)
+============================================================
+GCE q      : 0.4
+Best epoch : 100/100
+
+
+── TEST Results (Macro-Averaged) ──
+  Accuracy  : 81.30%
+  Precision : 75.70%
+  Recall    : 76.19%
+  F1 Score  : 75.87%
+
+── TEST Per-Class Breakdown ──
+                precision    recall  f1-score   support
+
+        Normal     0.8318    0.7574    0.7929       705
+      Serrated     0.5143    0.5607    0.5365       321
+Adenocarcinoma     0.9435    0.9750    0.9590       840
+       Adenoma     0.7384    0.7546    0.7464       273
+
+      accuracy                         0.8130      2139
+     macro avg     0.7570    0.7619    0.7587      2139
+  weighted avg     0.8161    0.8130    0.8137      2139
+
+── Confusion Matrix ──
+           Normal    Serrat    Adenoc    Adenom
+    Normal       534       117        23        31
+    Serrat        95       180        11        35
+    Adenoc         4        10       819         7
+    Adenom         9        43        15       206
+
+
+── Full Comparison Table ──
+  Method                                  Acc      F1
+  ──────────────────────────────────────────────────────
+  HSA-NRL (ResNet-34, noise-robust)       83.40%   76.54%
+  Ke et al. (CNN ensemble + MHSA)         86.72%   85.76%
+  Exp 1 — CONCH + MLP (CE)               82.14%   77.05%
+  Exp 2 — CONCH + MLP (SCE)              80.79%   75.12%
+  Exp 3 — CONCH + MLP (GCE q=0.7)        81.30%   75.87%
+
+── Per-Class F1 Across Experiments (Serrated = noise indicator) ──
+  Class             Exp1     Exp2     Exp3     Change (1→3)
+  ────────────────────────────────────────────────────────
+  Normal           79.50%   78.69%   79.29%   -0.21%
+  Serrated         54.95%   50.61%   53.65%   -1.30%
+  Adenocarcinoma   96.53%   95.62%   95.90%   -0.63%
+  Adenoma          77.20%   75.56%   74.64%   -2.56%
