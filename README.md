@@ -20,7 +20,7 @@ This work takes a different approach: use two complementary pathology foundation
 |---|---|---|
 | HSA-NRL — ResNet-34 + noise-robust pipeline *(Zhu et al., TMI 2022)* | 83.40% | 76.54% |
 | Ke et al. — 3-CNN ensemble + MHSA fusion *(Scientific Reports 2025)* | 86.72% | 85.76% |
-| Belaskri et al. — ViT-B/16 + RCC domain pretraining *(IC2SDA 2025)* | 87.14% | 82.77% |
+| Belaskri et al. — ViT-B/16 + RCC domain pretraining *(IC2SDA 2025)*  | 87.14% | 82.77% |
 
 ### Our Experiments — Single CONCH Encoder
 
@@ -38,16 +38,17 @@ This work takes a different approach: use two complementary pathology foundation
 |---|---|---|---|---|
 | UNI + CONCH + cross-attention (Phase 2 baseline) | 86.40% | 82.88% | 82.20% | 82.38% |
 | UNI + CONCH + MHSA fusion (150 epochs) | 86.77% | 82.65% | 82.76% | 82.66% |
-| **UNI + CONCH + LoRA (r=16) — best model** ⭐ | **87.38%** | **84.32%** | **83.01%** | **83.57%** |
+| UNI + CONCH + LoRA (r=16) — best model | 87.38% | 84.32% | 83.01% | 83.57% |
+| **UNI + CONCH + LoRA with bidirectional attention + GLU** ⭐ | **87.89%** | **83.71%** | **84.26%** | **83.97%** |
 
-### Per-Class F1 — Best Model (UNI + CONCH + LoRA)
 
-| Class | Precision | Recall | F1 | Support |
-|---|---|---|---|---|
-| Normal | 85.57% | 85.82% | 85.69% | 705 |
-| Serrated | 64.90% | 68.54% | 66.67% | 321 |
-| Adenocarcinoma | 97.18% | 98.57% | 97.87% | 840 |
-| Adenoma | 89.63% | 79.12% | 84.05% | 273 |
+### **Per-Class Scores — UNI + CONCH + LoRA with bidirectional attention + GLU** ⭐
+| Class            | Support | F1      | Prec    | Recall  | ROC-AUC |
+|---|---|---|---|---|---|
+| Normal           | 705     |  86.62% |  87.88% |  85.39% |  0.9657 |
+| Serrated         | 321     |  67.80% |  67.38% |  68.22% |  0.9270 |
+| Adenocarcinoma   | 840     |  98.16% |  97.87% |  98.45% |  0.9973 |
+| Adenoma          | 273     |  83.30% |  81.69% |  84.98% |  0.9796 |
 
 ---
 
@@ -56,21 +57,24 @@ This work takes a different approach: use two complementary pathology foundation
 ```
 chaoyang-conch-research/
 ├── scripts/
-│   ├── extract_features.py          # CONCH feature extraction (Experiments 1–3)
-│   ├── train_classifier_exp1.py     # Frozen CONCH + Cross-Entropy
-│   ├── train_classifier_exp2.py     # Frozen CONCH + Symmetric CE
-│   ├── train_classifier_exp3.py     # Frozen CONCH + Generalized CE
-│   ├── train_classifier_exp4.py     # CONCH partial fine-tune
-│   ├── train_classifier_exp5.py     # CONCH partial fine-tune + H&E augmentation
-│   ├── phase1_uni_extraction.py     # UNI feature extraction
-│   ├── phase2_dual_encoder.py       # UNI + CONCH + cross-attention baseline
-│   ├── phase2_MHSA_150epoch.py      # UNI + CONCH + MHSA fusion
-│   └── phase2_self_LoRA.py          # UNI + CONCH + LoRA — best model ⭐
+│   ├── extract_features.py                            # CONCH feature extraction (Experiments 1–3)
+│   ├── train_classifier_exp1.py                       # Frozen CONCH + Cross-Entropy
+│   ├── train_classifier_exp2.py                       # Frozen CONCH + Symmetric CE
+│   ├── train_classifier_exp3.py                       # Frozen CONCH + Generalized CE
+│   ├── train_classifier_exp4.py                       # CONCH partial fine-tune
+│   ├── train_classifier_exp5.py                       # CONCH partial fine-tune + H&E augmentation
+│   ├── phase1_uni_extraction.py                       # UNI feature extraction
+│   ├── phase2_dual_encoder.py                         # UNI + CONCH + cross-attention baseline
+│   ├── phase2_MHSA_150epoch.py                        # UNI + CONCH + MHSA fusion
+│   ├──  phase2_self_LoRA.py                           # UNI + CONCH + LoRA 
+│   ├──  evaluate_bi_attn_dynamic_feature_wt.py        # Evaluation Script
+│   └── phase_2_bi_attn_dynamic_feature_wt.py          # UNI + CONCH + LoRA with bidirectional attention + GLU ⭐
 ├── results/
 │   ├── experiment1_results.txt … experiment5_results.txt
 │   ├── phase2_results.txt
 │   ├── phase2_results_MHSA_150.txt
-│   └── phase2_results_selfLoRA.txt
+│   ├── phase2_results_selfLoRA.txt
+│   └── bi_attn_dynamic_feature_wt_results.txt
 ├── notebooks/
 ├── requirements.txt
 ├── requirements-frozen.txt
@@ -180,10 +184,23 @@ Outputs `uni_train_features.pt` [4021, 1024] and `uni_test_features.pt` [2139, 1
 ### Dual encoder — Phase 2: training
 
 ```bash
-python scripts/phase2_dual_encoder.py       # cross-attention baseline
-python scripts/phase2_MHSA_150epoch.py      # MHSA fusion variant
-python scripts/phase2_self_LoRA.py          # LoRA — best model ⭐
+python scripts/phase2_dual_encoder.py                         # cross-attention baseline
+python scripts/phase2_MHSA_150epoch.py                        # MHSA fusion variant
+python scripts/phase2_self_LoRA.py                            # LoRA — best model 
+python scripts/phase_2_bi_attn_dynamic_feature_wt.py          # UNI + CONCH + LoRA with bidirectional attention + GLU ⭐
 ```
+
+### Metrics: Only For phase_2_bi_attn_dynamic_feature_wt.py
+
+The **UNI + CONCH + LoRA with bidirectional attention + GLU** model requires a special script to calculate detailed metrics.
+
+All other scripts handle all metrics internally.
+
+```bash
+python scripts/evaluate_bi_attn_dynamic_feature_wt.py 
+
+```
+
 
 ---
 
@@ -193,7 +210,9 @@ All experiment checkpoints are available for download:
 
 > **[📥 Download model checkpoints (Google Drive)](https://drive.google.com/drive/folders/1JMreZz9VLrx8g6OETNXMQww5QANr3t2M?usp=sharing)**
 
-The best model is `phase2_best_acc_selfLoRA.pt` — UNI + CONCH + LoRA, 87.38% accuracy, 83.57% macro F1.
+Please note that filenames were changed for easy Identification.
+
+The best model is `bi_attn_dynamic_feature_wt.pt` — UNI + CONCH + LoRA with bidirectional attention + GLU, 87.89% accuracy, 83.97% macro F1.
 
 ---
 
