@@ -34,19 +34,19 @@ Adenocarcinoma     0.9718    0.9857    0.9787       840
 
 
 ── Full Comparison Table ──
-  Method                                    Acc      F1
-  ────────────────────────────────────────────────────────
-  HSA-NRL (ResNet-34 + noise-robust)        83.40%   76.54%
-  Ke et al. (CNN ensemble + MHSA)           86.72%   85.76%
-  Belaskri et al. (ViT-B/16 + RCC)         87.14%   82.77%
-  Exp 5 — CONCH partial fine-tune           86.02%   80.87%
-  Phase 2 (Our Best F1 Model)              87.38%   83.57%
-  Phase 2 (Our Best Acc Model)             87.38%   83.57%
+  Method                                                   Acc      F1
+  ────────────────────────────────────────────────────────────────────────────
+  HSA-NRL (ResNet-34 + noise-robust)                      83.40%   76.54%
+  Ke et al. (CNN ensemble + MHSA)                         86.72%   85.76%
+  Belaskri et al. (ViT-B/16 + RCC)                        87.14%   82.77%
+  
+  MHSA with dual encoder (Best F1)                        86.77%   82.66%
+  Dual encoder with LoRA (Our Best F1 Model)              87.38%   83.57%
 
-── Per-Class F1 — Phase 2 vs Experiment 5 ──
-  Class             Exp5     Phase2   Change
-  ────────────────────────────────────────────────
-  Normal           85.47%   85.69%   +0.22%
-  Serrated         62.08%   66.67%   +4.59%
-  Adenocarcinoma   97.60%   97.87%   +0.27%
-  Adenoma          78.34%   84.05%   +5.71%
+── Per-Class F1 — MHSA with dual encoder vs LoRA ──
+  Class     MHSA with dual encoder    LoRA    Change
+  ────────────────────────────────────────────────────────
+  Normal           85.26%            85.69%   +0.43%
+  Serrated         66.37%            66.67%   +0.30%
+  Adenocarcinoma   97.76%            97.87%   +0.11%
+  Adenoma          81.24%            84.05%   +2.81%
