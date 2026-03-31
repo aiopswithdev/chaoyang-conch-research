@@ -1,6 +1,6 @@
 # 🔬 Dual-Encoder Colorectal Cancer Classification on Chaoyang
 
-> A dual-foundation-model architecture combining **CONCH** (vision-language, semantic features) and **UNI** (DINOv2, morphological features) with cross-attention fusion and LoRA fine-tuning for four-class colorectal cancer subtype classification on the noisy, class-imbalanced Chaoyang benchmark.
+> A dual-foundation-model architecture combining **CONCH** (vision-language, semantic features) and **UNI** (DINOv2, morphological features) with bidirectioal-attention fusion, Dynamic Feature Weighting (Gating) and LoRA fine-tuning for four-class colorectal cancer subtype classification on the noisy, class-imbalanced Chaoyang benchmark.
 
 ---
 
@@ -8,7 +8,7 @@
 
 The Chaoyang dataset is one of the most challenging histopathology benchmarks — ~40% of training labels are noisy (three pathologists disagreed; one label was randomly assigned), the classes are imbalanced, and the dataset is small (4,021 training patches). Prior work addressed these challenges through explicit noise-correction pipelines or large CNN ensembles.
 
-This work takes a different approach: use two complementary pathology foundation models whose pretraining scale and diversity already encode noise-resistant representations, fuse them dynamically via cross-attention, and apply LoRA for parameter-efficient adaptation across all transformer blocks. The result is a single-model pipeline that surpasses prior CNN ensemble and ViT-transfer baselines on accuracy while using a fraction of the trainable parameters.
+This work takes a different approach: use two complementary pathology foundation models whose pretraining scale and diversity already encode noise-resistant representations, fuse them dynamically via bidirectioal-attention fusion, with Dynamic Feature Weighting (Gating), and apply LoRA for parameter-efficient adaptation across all transformer blocks. The result is a single-model pipeline that surpasses prior CNN ensemble and ViT-transfer baselines on accuracy while using a fraction of the trainable parameters.
 
 ---
 
