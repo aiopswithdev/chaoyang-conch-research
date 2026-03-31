@@ -1,0 +1,52 @@
+============================================================
+  Phase 2 — Asymmetric Cache & Tune (SOTA Run)
+============================================================
+Peak F1 Epoch   : 111/150
+Peak Acc Epoch  : 111/150
+Common dim      : 256
+Attn heads      : 4
+
+
+── TEST (Based on Best F1 Checkpoint) Results (Macro-Averaged) ──
+  Accuracy  : 87.38%
+  Precision : 84.32%
+  Recall    : 83.01%
+  F1 Score  : 83.57%
+
+── TEST (Based on Best F1 Checkpoint) Per-Class Breakdown ──
+                precision    recall  f1-score   support
+
+        Normal     0.8557    0.8582    0.8569       705
+      Serrated     0.6490    0.6854    0.6667       321
+Adenocarcinoma     0.9718    0.9857    0.9787       840
+       Adenoma     0.8963    0.7912    0.8405       273
+
+      accuracy                         0.8738      2139
+     macro avg     0.8432    0.8301    0.8357      2139
+  weighted avg     0.8755    0.8738    0.8741      2139
+
+── Confusion Matrix ──
+           Normal    Serrat    Adenoc    Adenom
+    Normal       605        77         7        16
+    Serrat        91       220         2         8
+    Adenoc         4         7       828         1
+    Adenom         7        35        15       216
+
+
+── Full Comparison Table ──
+  Method                                    Acc      F1
+  ────────────────────────────────────────────────────────
+  HSA-NRL (ResNet-34 + noise-robust)        83.40%   76.54%
+  Ke et al. (CNN ensemble + MHSA)           86.72%   85.76%
+  Belaskri et al. (ViT-B/16 + RCC)         87.14%   82.77%
+  Exp 5 — CONCH partial fine-tune           86.02%   80.87%
+  Phase 2 (Our Best F1 Model)              87.38%   83.57%
+  Phase 2 (Our Best Acc Model)             87.38%   83.57%
+
+── Per-Class F1 — Phase 2 vs Experiment 5 ──
+  Class             Exp5     Phase2   Change
+  ────────────────────────────────────────────────
+  Normal           85.47%   85.69%   +0.22%
+  Serrated         62.08%   66.67%   +4.59%
+  Adenocarcinoma   97.60%   97.87%   +0.27%
+  Adenoma          78.34%   84.05%   +5.71%
