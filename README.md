@@ -1,6 +1,7 @@
+
 # 🔬 Dual-Encoder Colorectal Cancer Classification on Chaoyang
 
-> A dual-foundation-model architecture combining **CONCH** (vision-language, semantic features) and **UNI** (DINOv2, morphological features) with bidirectioal-attention fusion, Dynamic Feature Weighting (Gating) and LoRA fine-tuning for four-class colorectal cancer subtype classification on the noisy, class-imbalanced Chaoyang benchmark.
+> A dual-foundation-model architecture combining **CONCH** (vision-language, semantic features) and **UNI** (DINOv2, morphological features) with bidirectional-attention fusion, Dynamic Feature Weighting (Gating) and LoRA fine-tuning for four-class colorectal cancer subtype classification on the noisy, class-imbalanced Chaoyang benchmark.
 
 ---
 
@@ -8,7 +9,7 @@
 
 The Chaoyang dataset is one of the most challenging histopathology benchmarks — ~40% of training labels are noisy (three pathologists disagreed; one label was randomly assigned), the classes are imbalanced, and the dataset is small (4,021 training patches). Prior work addressed these challenges through explicit noise-correction pipelines or large CNN ensembles.
 
-This work takes a different approach: use two complementary pathology foundation models whose pretraining scale and diversity already encode noise-resistant representations, fuse them dynamically via bidirectioal-attention fusion, with Dynamic Feature Weighting (Gating), and apply LoRA for parameter-efficient adaptation across all transformer blocks. The result is a single-model pipeline that surpasses prior CNN ensemble and ViT-transfer baselines on accuracy while using a fraction of the trainable parameters.
+This work takes a different approach: use two complementary pathology foundation models whose pretraining scale and diversity already encode noise-resistant representations, fuse them dynamically via bidirectional-attention fusion, with Dynamic Feature Weighting (Gating), and apply LoRA for parameter-efficient adaptation across all transformer blocks. The result is a single-model pipeline that surpasses prior CNN ensemble and ViT-transfer baselines on accuracy while using a fraction of the trainable parameters.
 
 ---
 
@@ -39,16 +40,18 @@ This work takes a different approach: use two complementary pathology foundation
 | UNI + CONCH + cross-attention (Phase 2 baseline) | 86.40% | 82.88% | 82.20% | 82.38% |
 | UNI + CONCH + MHSA fusion (150 epochs) | 86.77% | 82.65% | 82.76% | 82.66% |
 | UNI + CONCH + LoRA (r=16) — best model | 87.38% | 84.32% | 83.01% | 83.57% |
-| **UNI + CONCH + LoRA with bidirectional attention + GLU** ⭐ | **87.89%** | **83.71%** | **84.26%** | **83.97%** |
+| UNI + CONCH + LoRA with bidirectional attention + GLU | 87.89% | 83.71% | 84.26% | 83.97% |
+| **UNI + CONCH + LoRA + Bi-Attn + Scalar gate (Best F1)** ⭐ | **87.84%** | **84.70%** | **83.68%** | **84.12%** |
+| **UNI + CONCH + LoRA + Bi-Attn + Scalar gate (Best Acc)** 🏆 | **88.03%** | **84.85%** | **83.43%** | **84.08%** |
 
 
-### **Per-Class Scores — UNI + CONCH + LoRA with bidirectional attention + GLU** ⭐
+### **Per-Class Scores — UNI + CONCH + LoRA + Bi-Attn + Scalar gate (Best F1 Model)** ⭐
 | Class            | Support | F1      | Prec    | Recall  | ROC-AUC |
 |---|---|---|---|---|---|
-| Normal           | 705     |  86.62% |  87.88% |  85.39% |  0.9657 |
-| Serrated         | 321     |  67.80% |  67.38% |  68.22% |  0.9270 |
-| Adenocarcinoma   | 840     |  98.16% |  97.87% |  98.45% |  0.9973 |
-| Adenoma          | 273     |  83.30% |  81.69% |  84.98% |  0.9796 |
+| Normal           | 705     |  86.29% |  86.91% |  85.67% |  0.9680 |
+| Serrated         | 321     |  68.09% |  66.47% |  69.78% |  0.9347 |
+| Adenocarcinoma   | 840     |  97.88% |  96.74% |  99.05% |  0.9971 |
+| Adenoma          | 273     |  84.23% |  88.66% |  80.22% |  0.9738 |
 
 ---
 
@@ -66,15 +69,19 @@ chaoyang-conch-research/
 │   ├── phase1_uni_extraction.py                       # UNI feature extraction
 │   ├── phase2_dual_encoder.py                         # UNI + CONCH + cross-attention baseline
 │   ├── phase2_MHSA_150epoch.py                        # UNI + CONCH + MHSA fusion
-│   ├──  phase2_self_LoRA.py                           # UNI + CONCH + LoRA 
-│   ├──  evaluate_bi_attn_dynamic_feature_wt.py        # Evaluation Script
-│   └── phase_2_bi_attn_dynamic_feature_wt.py          # UNI + CONCH + LoRA with bidirectional attention + GLU ⭐
+│   ├── phase2_self_LoRA.py                            # UNI + CONCH + LoRA 
+│   ├── evaluate_bi_attn_dynamic_feature_wt.py         # Evaluation Script
+│   ├── phase_2_bi_attn_dynamic_feature_wt.py          # UNI + CONCH + LoRA with bidirectional attention + GLU 
+│   ├── phase_2_bi_dir_attn_scalar_gate.py             # UNI + CONCH + LoRA + Bi-Attn + Scalar gate ⭐
+│   └── evaluate_bi_dir_attn_scalar_gate.py            # Evaluation Script
 ├── results/
 │   ├── experiment1_results.txt … experiment5_results.txt
 │   ├── phase2_results.txt
 │   ├── phase2_results_MHSA_150.txt
 │   ├── phase2_results_selfLoRA.txt
-│   └── bi_attn_dynamic_feature_wt_results.txt
+│   ├── bi_attn_dynamic_feature_wt_results.txt
+│   ├── Bi_dir_attn_scalar_gate_best_f1.txt
+│   └── Bi_dir_attn_scalar_gate_best_acc.txt
 ├── notebooks/
 ├── requirements.txt
 ├── requirements-frozen.txt
@@ -88,7 +95,7 @@ chaoyang-conch-research/
 ### Prerequisites
 
 - Python 3.10
-- CUDA-capable GPU (tested on 7 GB RTX 4060 and 100 GB H100 NVL)
+- CUDA-capable GPU (tested on RTX 4060 mobile and 100 GB H100 NVL)
 - Access approved for both gated models on HuggingFace (see Step 4)
 
 ### 1. Clone and install CONCH
@@ -190,14 +197,21 @@ python scripts/phase2_self_LoRA.py                            # LoRA — best mo
 python scripts/phase_2_bi_attn_dynamic_feature_wt.py          # UNI + CONCH + LoRA with bidirectional attention + GLU ⭐
 ```
 
-### Metrics: Only For phase_2_bi_attn_dynamic_feature_wt.py
+### Metrics: Only For `phase_2_bi_attn_dynamic_feature_wt.py` and `Bi_dir_attn_scalar_gate.py`
 
-The **UNI + CONCH + LoRA with bidirectional attention + GLU** model requires a special script to calculate detailed metrics.
+Some training scripts requires a special script to calculate detailed metrics. All scripts other than ones in the table produce detailed metrics after training.
 
-All other scripts handle all metrics internally.
+| Model Training Script                        | Evaluation Script                            | 
+|---|---|
+| `phase_2_bi_dir_attn_scalar_gate.py `        | `evaluate_bi_dir_attn_scalar_gate`           | 
+| `phase_2_bi_attn_dynamic_feature_wt.py`      | `evaluate_bi_attn_dynamic_feature_wt.py`     |
+
+
+
+
 
 ```bash
-python scripts/evaluate_bi_attn_dynamic_feature_wt.py 
+python scripts/evaluation_script.py 
 
 ```
 
@@ -212,7 +226,7 @@ All experiment checkpoints are available for download:
 
 Please note that filenames were changed for easy Identification.
 
-The best model is `bi_attn_dynamic_feature_wt.pt` — UNI + CONCH + LoRA with bidirectional attention + GLU, 87.89% accuracy, 83.97% macro F1.
+The best models are `Bidirectional_attention_scalar_gate_best_acc.pt`  and`Bidirectional_attention_scalar_gate_best_f1.pt` — UNI + CONCH + LoRA with Bidirectional attention + Scalar Gate, achieving up to 88.03% accuracy and 84.12% macro F1 respectively.
 
 ---
 
