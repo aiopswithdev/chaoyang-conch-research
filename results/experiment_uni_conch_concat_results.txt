@@ -1,0 +1,44 @@
+============================================================
+  Experiment — UNI+CONCH Simply Concat
+============================================================
+Best epoch : 30/100
+
+
+── TEST Results (Macro-Averaged) ──
+  Accuracy  : 85.83%
+  Precision : 81.74%
+  Recall    : 81.43%
+  F1 Score  : 81.52%
+
+── TEST Per-Class Breakdown ──
+                precision    recall  f1-score   support
+
+        Normal     0.8612    0.8270    0.8437       705
+      Serrated     0.6114    0.6667    0.6379       321
+Adenocarcinoma     0.9650    0.9833    0.9741       840
+       Adenoma     0.8320    0.7802    0.8053       273
+
+      accuracy                         0.8583      2139
+     macro avg     0.8174    0.8143    0.8152      2139
+  weighted avg     0.8607    0.8583    0.8591      2139
+
+── Confusion Matrix ──
+           Normal    Serrat    Adenoc    Adenom
+    Normal       583        90        12        20
+    Serrat        84       214         3        20
+    Adenoc         1        10       826         3
+    Adenom         9        36        15       213
+
+
+── Comparison Against Published Baselines and Other Experiments ──
+  Method                              Acc      F1
+  ─────────────────────────────────────────────────
+  HSA-NRL (ResNet-34, noise-robust)   83.40%   76.54%
+  Ke et al. (CNN ensemble + MHSA)     86.72%   85.76%
+  CONCH + MLP (Experiment 1, ours)    82.14%   ?
+  UNI + MLP (Experiment uni_frozen)   ?        ?
+  UNI+CONCH Concat (ours)             85.83%   81.52%
+  UNI+CONCH + Cross-attention         ?        ?
+  UNI+CONCH + MHSA                    ?        ?
+  UNI+CONCH + Bi-ATTN + GLU + LoRA    87.89%   ?
+  UNI+CONCH + Bi-ATTN + Linear gate + LoRA: 88.03%   ?

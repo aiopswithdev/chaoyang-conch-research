@@ -1,0 +1,39 @@
+============================================================
+  Experiment — UNI Frozen Baseline
+============================================================
+Best epoch : 30/100
+
+
+── TEST Results (Macro-Averaged) ──
+  Accuracy  : 86.49%
+  Precision : 82.40%
+  Recall    : 81.16%
+  F1 Score  : 81.73%
+
+── TEST Per-Class Breakdown ──
+                precision    recall  f1-score   support
+
+        Normal     0.8553    0.8638    0.8596       705
+      Serrated     0.6488    0.6044    0.6258       321
+Adenocarcinoma     0.9552    0.9905    0.9725       840
+       Adenoma     0.8366    0.7875    0.8113       273
+
+      accuracy                         0.8649      2139
+     macro avg     0.8240    0.8116    0.8173      2139
+  weighted avg     0.8612    0.8649    0.8627      2139
+
+── Confusion Matrix ──
+           Normal    Serrat    Adenoc    Adenom
+    Normal       609        70        10        16
+    Serrat        94       194         8        25
+    Adenoc         1         6       832         1
+    Adenom         8        29        21       215
+
+
+── Comparison Against Published Baselines ──
+  Method                              Acc      F1
+  ─────────────────────────────────────────────────
+  HSA-NRL (ResNet-34, noise-robust)   83.40%   76.54%
+  Ke et al. (CNN ensemble + MHSA)     86.72%   85.76%
+  CONCH + MLP (Experiment 1, ours)    82.14%   ?
+  UNI + MLP (Experiment uni_frozen, ours)    86.49%   81.73%

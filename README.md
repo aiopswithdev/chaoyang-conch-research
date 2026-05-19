@@ -23,7 +23,7 @@ This work takes a different approach: use two complementary pathology foundation
 | Ke et al. — 3-CNN ensemble + MHSA fusion *(Scientific Reports 2025)* | 86.72% | 85.76% |
 | Belaskri et al. — ViT-B/16 + RCC domain pretraining *(IC2SDA 2025)*  | 87.14% | 82.77% |
 
-### Our Experiments — Single CONCH Encoder
+### Our Experiments — Single Encoder
 
 | # | Configuration | Acc | Precision | Recall | F1 |
 |---|---|---|---|---|---|
@@ -32,14 +32,18 @@ This work takes a different approach: use two complementary pathology foundation
 | 3 | CONCH frozen + Generalized CE (q=0.4) | 81.30% | 75.60% | 76.20% | 75.87% |
 | 4 | CONCH partial fine-tune (blocks 6–11) | 85.46% | 80.95% | 80.27% | 80.55% |
 | 5 | CONCH partial fine-tune + H&E augmentation | 86.02% | 81.43% | 80.39% | 80.87% |
+| 6 | UNI Frozen | 86.49% | 82.40% | 81.16% | 81.73% |
+
 
 ### Our Experiments — Dual Encoder (UNI + CONCH)
 
 | Configuration | Acc | Precision | Recall | F1 |
 |---|---|---|---|---|
+| UNI+CONCH Simply Concat | 85.83% | 81.74% | 81.74% | 81.52% |
 | UNI + CONCH + cross-attention (Phase 2 baseline) | 86.40% | 82.88% | 82.20% | 82.38% |
 | UNI + CONCH + MHSA fusion (150 epochs) | 86.77% | 82.65% | 82.76% | 82.66% |
-| UNI + CONCH + LoRA (r=16) — best model | 87.38% | 84.32% | 83.01% | 83.57% |
+| UNI + CONCH + LoRA (r=16) | 87.38% | 84.32% | 83.01% | 83.57% |
+| UNI+CONCH + Bi-ATTN (No gating) + LoRA | 87.52% | 83.66% | 82.69% | 83.14% |
 | UNI + CONCH + LoRA with bidirectional attention + GLU | 87.89% | 83.71% | 84.26% | 83.97% |
 | **UNI + CONCH + LoRA + Bi-Attn + Scalar gate (Best F1)** ⭐ | **87.84%** | **84.70%** | **83.68%** | **84.12%** |
 | **UNI + CONCH + LoRA + Bi-Attn + Scalar gate (Best Acc)** 🏆 | **88.03%** | **84.85%** | **83.43%** | **84.08%** |
@@ -61,24 +65,31 @@ This work takes a different approach: use two complementary pathology foundation
 chaoyang-conch-research/
 ├── scripts/
 │   ├── extract_features.py                            # CONCH feature extraction (Experiments 1–3)
+│   ├── experiment_uni_frozen.py                       # Frozen UNI Baseline
 │   ├── train_classifier_exp1.py                       # Frozen CONCH + Cross-Entropy
 │   ├── train_classifier_exp2.py                       # Frozen CONCH + Symmetric CE
 │   ├── train_classifier_exp3.py                       # Frozen CONCH + Generalized CE
 │   ├── train_classifier_exp4.py                       # CONCH partial fine-tune
 │   ├── train_classifier_exp5.py                       # CONCH partial fine-tune + H&E augmentation
 │   ├── phase1_uni_extraction.py                       # UNI feature extraction
+│   ├── experiment_uni_conch_concat.py                 # UNI + CONCH + Simple concat
 │   ├── phase2_dual_encoder.py                         # UNI + CONCH + cross-attention baseline
 │   ├── phase2_MHSA_150epoch.py                        # UNI + CONCH + MHSA fusion
 │   ├── phase2_self_LoRA.py                            # UNI + CONCH + LoRA 
 │   ├── evaluate_bi_attn_dynamic_feature_wt.py         # Evaluation Script
+│   ├── experiment_uni_conch_bi_attn_no_gating_lora.py # UNI + CONCH + LoRA + Bi-Attn (without gating)
+│   ├── evaluate_uni_conch_bi_attn_no_gating_lora.py   # Evaluation script
 │   ├── phase_2_bi_attn_dynamic_feature_wt.py          # UNI + CONCH + LoRA with bidirectional attention + GLU 
 │   ├── phase_2_bi_dir_attn_scalar_gate.py             # UNI + CONCH + LoRA + Bi-Attn + Scalar gate ⭐
 │   └── evaluate_bi_dir_attn_scalar_gate.py            # Evaluation Script
 ├── results/
 │   ├── experiment1_results.txt … experiment5_results.txt
+│   ├── experiment_uni_frozen_results.txt
+│   ├── experiment_uni_conch_concat_results.txt
 │   ├── phase2_results.txt
 │   ├── phase2_results_MHSA_150.txt
 │   ├── phase2_results_selfLoRA.txt
+│   ├── experiment_uni_conch_bi_attn_no_gating_lora_results.txt
 │   ├── bi_attn_dynamic_feature_wt_results.txt
 │   ├── Bi_dir_attn_scalar_gate_best_f1.txt
 │   └── Bi_dir_attn_scalar_gate_best_acc.txt

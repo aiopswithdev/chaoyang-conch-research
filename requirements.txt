@@ -6,7 +6,8 @@
 torch==2.10.0
 torchvision==0.25.0
 torchaudio==2.10.0
-
+torchstain
+peft
 # Vision & pretrained models
 timm==1.0.25
 transformers==5.3.0
