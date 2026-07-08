@@ -44,6 +44,7 @@ This work takes a different approach: use two complementary pathology foundation
 | UNI + CONCH + MHSA fusion (150 epochs) | 86.77% | 82.65% | 82.76% | 82.66% |
 | UNI + CONCH + LoRA (r=16) | 87.38% | 84.32% | 83.01% | 83.57% |
 | UNI+CONCH + Bi-ATTN (No gating) + LoRA | 87.52% | 83.66% | 82.69% | 83.14% |
+| UNI+CONCH + Bi-ATTN (No gating) + LoRA + SAM | 87.56% | 83.49% | 83.83% | 83.64% |
 | UNI + CONCH + LoRA with bidirectional attention + GLU | 87.89% | 83.71% | 84.26% | 83.97% |
 | **UNI + CONCH + LoRA + Bi-Attn + Scalar gate (Best F1)** ⭐ | **87.84%** | **84.70%** | **83.68%** | **84.12%** |
 | **UNI + CONCH + LoRA + Bi-Attn + Scalar gate (Best Acc)** 🏆 | **88.03%** | **84.85%** | **83.43%** | **84.08%** |
@@ -79,6 +80,7 @@ chaoyang-conch-research/
 │   ├── evaluate_bi_attn_dynamic_feature_wt.py         # Evaluation Script
 │   ├── experiment_uni_conch_bi_attn_no_gating_lora.py # UNI + CONCH + LoRA + Bi-Attn (without gating)
 │   ├── evaluate_uni_conch_bi_attn_no_gating_lora.py   # Evaluation script
+│   ├── uni_conch_bi-attn_no_gating_lora_sam.py        # UNI + CONCH + LoRA + Bi-Attn (without gating) + SAM
 │   ├── phase_2_bi_attn_dynamic_feature_wt.py          # UNI + CONCH + LoRA with bidirectional attention + GLU 
 │   ├── phase_2_bi_dir_attn_scalar_gate.py             # UNI + CONCH + LoRA + Bi-Attn + Scalar gate ⭐
 │   └── evaluate_bi_dir_attn_scalar_gate.py            # Evaluation Script
@@ -90,6 +92,7 @@ chaoyang-conch-research/
 │   ├── phase2_results_MHSA_150.txt
 │   ├── phase2_results_selfLoRA.txt
 │   ├── experiment_uni_conch_bi_attn_no_gating_lora_results.txt
+│   ├── experiment_uni_conch_bi_attn_no_gating_lora_SAM_results.txt
 │   ├── bi_attn_dynamic_feature_wt_results.txt
 │   ├── Bi_dir_attn_scalar_gate_best_f1.txt
 │   └── Bi_dir_attn_scalar_gate_best_acc.txt
