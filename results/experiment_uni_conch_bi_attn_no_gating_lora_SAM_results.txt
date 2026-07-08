@@ -1,0 +1,58 @@
+============================================================
+  Experiment — UNI+CONCH + Bi-ATTN (No gating) + LoRA + SAM
+============================================================
+Model loaded from: exp_uni_conch_bi_attn_no_gating_lora_best_acc.pt
+Epoch: 78
+Best F1 during training: 83.64%
+Best Acc during training: 87.56%
+
+
+── TEST Results (Macro-Averaged) ──
+  Accuracy  : 87.56%
+  Precision : 83.49%
+  Recall    : 83.83%
+  F1 Score  : 83.64%
+
+── TEST Per-Class Breakdown ──
+                precision    recall  f1-score   support
+
+        Normal     0.8745    0.8496    0.8619       705
+      Serrated     0.6618    0.7009    0.6808       321
+Adenocarcinoma     0.9798    0.9821    0.9810       840
+       Adenoma     0.8235    0.8205    0.8220       273
+
+      accuracy                         0.8756      2139
+     macro avg     0.8349    0.8383    0.8364      2139
+  weighted avg     0.8774    0.8756    0.8764      2139
+
+── Confusion Matrix ──
+           Normal    Serrat    Adenoc    Adenom
+    Normal       599        76         5        25
+    Serrat        75       225         3        18
+    Adenoc         4         6       825         5
+    Adenom         7        33         9       224
+
+
+── Comparison Against Published Baselines and Other Experiments ──
+  Method                              Acc      F1
+  ───────────────────────────────────────────────────────
+  HSA-NRL (ResNet-34, noise-robust)   83.40%   76.54%
+  Ke et al. (CNN ensemble + MHSA)     86.72%   85.76%
+  Belaskri et al. (ViT-B/16 + RCC)   87.14%   82.77%
+  Exp 5 — CONCH partial fine-tune     86.02%   80.87%
+  UNI Frozen (ours)                   ?        ?
+  UNI+CONCH Concat (ours)             ?        ?
+  UNI+CONCH + Cross-attention         ?        ?
+  UNI+CONCH + MHSA                    ?        ?
+  UNI+CONCH + Bi-ATTN + GLU + LoRA    87.89%   ?
+  UNI+CONCH + Bi-ATTN + Linear gate + LoRA: 88.03%   ?
+  UNI+CONCH + Bi-ATTN (No gating) + LoRA (ours)  87.56%   83.64%
+
+
+── Per-Class F1 Breakdown ──
+  Class             F1 Score
+  ────────────────────────────────
+  Normal           86.19%
+  Serrated         68.08%
+  Adenocarcinoma   98.10%
+  Adenoma          82.20%
